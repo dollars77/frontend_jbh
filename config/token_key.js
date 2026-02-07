@@ -1,0 +1,1 @@
+export const TOKEN_KEY = "JBH_SessionToken";
