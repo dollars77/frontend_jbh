@@ -11,6 +11,12 @@ const WebsiteCard = ({ website }) => {
   const [tab, setTab] = useState("pc");
   const [imageUrls, setImageUrls] = useState({ pc: "", mobile: "" });
   const [errorStates, setErrorStates] = useState({ pc: false, mobile: false });
+  // Mobile: แตะครั้งแรกให้โชว์ปุ่ม "ดูรูปภาพ" ก่อน (ไม่เปิด modal ทันที)
+  const [showMobileActions, setShowMobileActions] = useState(false);
+
+  const isDesktop = () =>
+    typeof window !== "undefined" &&
+    window.matchMedia("(min-width: 1024px)").matches;
 
   const blurDataURL =
     "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGBobHB0eH/xAAVAQEBAAAAAAAAAAAAAAAAAAABAv/EABgRAAMBAQAAAAAAAAAAAAAAAAABAhEh/9oADAMBAAIRAxEAPwCdABmXCwwsNBBH//Z";
@@ -29,6 +35,17 @@ const WebsiteCard = ({ website }) => {
     fetchImages();
   }, []);
 
+  // ถ้าขยายจอเป็น desktop ให้ซ่อน action ของ mobile อัตโนมัติ
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const mq = window.matchMedia("(min-width: 1024px)");
+    const onChange = () => {
+      if (mq.matches) setShowMobileActions(false);
+    };
+    mq.addEventListener?.("change", onChange);
+    return () => mq.removeEventListener?.("change", onChange);
+  }, []);
+
   const handleError = (type) => {
     setErrorStates((prev) => ({ ...prev, [type]: true }));
   };
@@ -36,6 +53,13 @@ const WebsiteCard = ({ website }) => {
   const openModal = () => {
     modalRef.current?.showModal();
     setTab("pc");
+    setShowMobileActions(false);
+  };
+
+  // Mobile: แตะที่รูป/การ์ดเพื่อสลับการแสดงปุ่ม "ดูรูปภาพ"
+  const handleCardTap = () => {
+    if (isDesktop()) return; // desktop ใช้ hover ตามเดิม
+    setShowMobileActions((v) => !v);
   };
 
   const handleImageError = () => {
@@ -75,13 +99,13 @@ const WebsiteCard = ({ website }) => {
               className="relative z-10 w-14 lg:w-18 zoominoutimgaka"
             />
           </div>
-        ) : (
           // <Lottie
           //   className="w-5 md:w-14 "
           //   style={{ filter: "drop-shadow(0px 1px 2px black)" }}
           //   animationData={hot_icon_anime}
           //   loop={true}
           // />
+        ) : (
           <span className="bg-sky-600 text-white text-xs font-semibold lg:font-bold px-2 lg:px-3 py-0.5 lg:py-1 rounded-full shadow-lg animate-pulse">
             NEW
           </span>
@@ -228,32 +252,25 @@ const WebsiteCard = ({ website }) => {
       </dialog>
 
       {/* Main Image Container */}
-      <div className="relative h-36 lg:h-44 overflow-hidden">
-        {/* Hover Overlay */}
-        {/* <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 group-active:opacity-100 group-focus:opacity-100 transition-opacity duration-300 z-10 flex items-center justify-center"> */}
+      <div
+        className="relative h-36 lg:h-44 overflow-hidden"
+        onClick={handleCardTap}
+      >
+        {/* Overlay (Mobile: tap to show / Desktop: hover to show) */}
         <div
-          className="
-  absolute inset-0 bg-black/50
-  opacity-100 md:opacity-0
-  md:group-hover:opacity-100
-  transition-opacity duration-300
-  z-10 flex items-center justify-center
-  pointer-events-none md:group-hover:pointer-events-auto
-"
+          className={`absolute inset-0 bg-black/50 transition-opacity duration-300 z-10 flex items-center justify-center
+          ${showMobileActions ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"}
+          lg:opacity-0 lg:pointer-events-none lg:group-hover:opacity-100 lg:group-hover:pointer-events-auto`}
         >
-          {/* <button
-            onClick={openModal}
-            className="bg-white/90 hover:bg-white active:bg-white focus:bg-white text-gray-800 font-semibold py-2 px-5 rounded-lg shadow-lg transform translate-y-4 group-hover:translate-y-0 group-focus:translate-y-0 group-active:translate-y-0 opacity-0 group-hover:opacity-100 group-active:opacity-100 group-focus:opacity-100 transition-all duration-300 flex items-center space-x-2"
-          > */}
           <button
-            onClick={openModal}
-            className="
-      bg-white/90 text-gray-800 font-semibold py-2 px-5 rounded-lg shadow-lg
-      opacity-100 md:opacity-0
-      md:group-hover:opacity-100
-      transition-all duration-300
-      flex items-center space-x-2
-    "
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation();
+              openModal();
+            }}
+            className={`bg-white/90 hover:bg-white active:bg-white focus:bg-white text-gray-800 font-semibold py-2 px-5 rounded-lg shadow-lg transform transition-all duration-300 flex items-center space-x-2
+            ${showMobileActions ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"}
+            lg:translate-y-4 lg:opacity-0 lg:group-hover:translate-y-0 lg:group-hover:opacity-100`}
           >
             <svg
               className="w-5 h-5"
@@ -330,7 +347,11 @@ const WebsiteCard = ({ website }) => {
         </span>
         <div className="w-full mt-2">
           <button
-            onClick={() => handleClickURL(website.websiteurl)}
+            onClick={(e) => {
+              e.stopPropagation();
+              setShowMobileActions(false);
+              handleClickURL(website.websiteurl);
+            }}
             className="w-full  bg-[linear-gradient(#e9e9e9,#e9e9e9_50%,#fff)] group  h-8 lg:h-10 inline-flex transition-all duration-300 overflow-visible p-1 rounded-xl group"
           >
             <div className="w-full h-full bg-[linear-gradient(to_top,#ececec,#fff)] overflow-hidden shadow-[0_0_1px_rgba(0,0,0,0.07),0_0_1px_rgba(0,0,0,0.05),0_3px_3px_rgba(0,0,0,0.25),0_1px_3px_rgba(0,0,0,0.12)] p-0.5 lg:p-1 rounded-lg hover:shadow-none duration-300">
