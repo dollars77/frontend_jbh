@@ -72,7 +72,7 @@ const WebsiteCard = ({ website }) => {
               height={100}
               src="/hot-icon3.png"
               alt="Description"
-              className="relative z-10 lg:w-18 zoominoutimgaka"
+              className="relative z-10 w-18 zoominoutimgaka"
             />
           </div>
           // <Lottie
