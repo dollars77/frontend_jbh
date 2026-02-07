@@ -1,9 +1,9 @@
 // import { getSocialLinks } from "./callAPI_getSocial";
 
 export const social_links = {
-  facebook: "https://www.facebook.com/janjuliefashionista",
-  line: "https://line.me/R/ti/p/@janjulie",
-  telegram: "https://t.me/janjulie_official",
+  facebook: "https://www.facebook.com/",
+  line: "https://line.me/",
+  telegram: "https://t.me/",
 };
 // console.log(await getSocialLinks());
 
