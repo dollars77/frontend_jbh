@@ -75,13 +75,13 @@ const WebsiteCard = ({ website }) => {
               className="relative z-10 w-14 lg:w-18 zoominoutimgaka"
             />
           </div>
+        ) : (
           // <Lottie
           //   className="w-5 md:w-14 "
           //   style={{ filter: "drop-shadow(0px 1px 2px black)" }}
           //   animationData={hot_icon_anime}
           //   loop={true}
           // />
-        ) : (
           <span className="bg-sky-600 text-white text-xs font-semibold lg:font-bold px-2 lg:px-3 py-0.5 lg:py-1 rounded-full shadow-lg animate-pulse">
             NEW
           </span>
@@ -230,10 +230,30 @@ const WebsiteCard = ({ website }) => {
       {/* Main Image Container */}
       <div className="relative h-36 lg:h-44 overflow-hidden">
         {/* Hover Overlay */}
-        <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 group-active:opacity-100 group-focus:opacity-100 transition-opacity duration-300 z-10 flex items-center justify-center">
-          <button
+        {/* <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 group-active:opacity-100 group-focus:opacity-100 transition-opacity duration-300 z-10 flex items-center justify-center"> */}
+        <div
+          className="
+  absolute inset-0 bg-black/50
+  opacity-100 md:opacity-0
+  md:group-hover:opacity-100
+  transition-opacity duration-300
+  z-10 flex items-center justify-center
+  pointer-events-none md:group-hover:pointer-events-auto
+"
+        >
+          {/* <button
             onClick={openModal}
             className="bg-white/90 hover:bg-white active:bg-white focus:bg-white text-gray-800 font-semibold py-2 px-5 rounded-lg shadow-lg transform translate-y-4 group-hover:translate-y-0 group-focus:translate-y-0 group-active:translate-y-0 opacity-0 group-hover:opacity-100 group-active:opacity-100 group-focus:opacity-100 transition-all duration-300 flex items-center space-x-2"
+          > */}
+          <button
+            onClick={openModal}
+            className="
+      bg-white/90 text-gray-800 font-semibold py-2 px-5 rounded-lg shadow-lg
+      opacity-100 md:opacity-0
+      md:group-hover:opacity-100
+      transition-all duration-300
+      flex items-center space-x-2
+    "
           >
             <svg
               className="w-5 h-5"
@@ -304,7 +324,7 @@ const WebsiteCard = ({ website }) => {
       </div>
 
       {/* Website Name */}
-      <div className="absolute bottom-1 left-1 lg:bottom-2 lg:left-2 z-10 ">
+      <div className="absolute bottom-1 left-1 lg:bottom-2 lg:left-2 z-20 ">
         <span className="bg-black/40 backdrop-blur-3xl text-orange-400 text-xs font-semibold px-3 py-1.5 rounded-lg shadow-lg">
           {website.websitename || "Coming soon"}
         </span>
