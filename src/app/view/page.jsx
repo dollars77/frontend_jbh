@@ -5,25 +5,35 @@ import config from "@/config/configapi";
 import { useRouter } from "next/navigation";
 
 export default function ProxyViewer() {
-  const [url] = useState(sessionStorage.getItem("externalUrl"));
+  const [url, setUrl] = useState("");          // เริ่มเป็นค่าว่างก่อน
   const [proxyUrl, setProxyUrl] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const router = useRouter();
-  const loadSite = async () => {
-    if (!url.trim()) return;
+
+  // อ่าน sessionStorage หลัง mount (client เท่านั้น)
+  useEffect(() => {
+    const stored = sessionStorage.getItem("externalUrl") || "";
+    setUrl(stored);
+  }, []);
+
+  const loadSite = useCallback(async (targetUrl) => {
+    if (!targetUrl?.trim()) return;
 
     setLoading(true);
     setError("");
-    setProxyUrl(""); // clear previous content
+
+    // revoke blob เก่า (กัน leak)
+    setProxyUrl((prev) => {
+      if (prev?.startsWith("blob:")) URL.revokeObjectURL(prev);
+      return "";
+    });
 
     try {
-      // วิธีที่ 1: ใช้ api.post และได้ HTML กลับมา
       const response = await api.post(`api/website/getWebsite_URL`, {
-        url: url,
+        url: targetUrl,
       });
 
-      // ถ้า response เป็น HTML string ต้องสร้าง blob URL
       if (typeof response.data === "string") {
         const blob = new Blob([response.data], { type: "text/html" });
         const blobUrl = URL.createObjectURL(blob);
@@ -40,25 +50,22 @@ export default function ProxyViewer() {
     } finally {
       setLoading(false);
     }
-  };
-
-  useEffect(() => {
-    loadSite();
   }, []);
 
-  // Cleanup blob URL when component unmounts
-  const cleanupBlobUrl = () => {
-    if (proxyUrl && proxyUrl.startsWith("blob:")) {
-      URL.revokeObjectURL(proxyUrl);
-    }
-  };
-
+  // พอ url มาแล้วค่อยโหลด
   useEffect(() => {
-    return cleanupBlobUrl;
+    if (url) loadSite(url);
+  }, [url, loadSite]);
+
+  // cleanup ตอนออกจากหน้า
+  useEffect(() => {
+    return () => {
+      if (proxyUrl?.startsWith("blob:")) URL.revokeObjectURL(proxyUrl);
+    };
   }, [proxyUrl]);
 
   return (
-    <div style={containerStyle}>
+    <div style={containerStyle} className="-mt-3 md:-mt-2 lg:-mt-7">
       {/* Header with URL input */}
       <div style={headerStyle}>
         <div style={inputGroupStyle}>
