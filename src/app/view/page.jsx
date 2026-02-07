@@ -1,7 +1,6 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect,useCallback  } from "react";
 import api from "@/config/api";
-import config from "@/config/configapi";
 import { useRouter } from "next/navigation";
 
 export default function ProxyViewer() {
