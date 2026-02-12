@@ -53,7 +53,7 @@ export default function FloatingContacts() {
   ];
 
   return (
-    <div className="fixed bottom-4 right-2 lg:right-4 z-50 flex flex-col gap-3">
+    <div className="fixed bottom-4 left-3 lg:right-4 z-50 flex flex-col gap-3">
       {items.map((it) => (
         <a
           key={it.key}

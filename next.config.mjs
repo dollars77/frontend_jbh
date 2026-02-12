@@ -48,17 +48,17 @@ const nextConfig = {
   images: {
     dangerouslyAllowLocalIP: true,
     remotePatterns: [
-      // {
-      //   protocol: 'http',
-      //   hostname: 'localhost',
-      //   port: '8081',
-      //   pathname: '/app/images/**',
-      // },
       {
-        protocol: 'https',
-        hostname: 'jbh-design.com',
+        protocol: 'http',
+        hostname: 'localhost',
+        port: '8081',
         pathname: '/app/images/**',
       },
+      // {
+      //   protocol: 'https',
+      //   hostname: 'jbh-design.com',
+      //   pathname: '/app/images/**',
+      // },
     ],
   },
 };

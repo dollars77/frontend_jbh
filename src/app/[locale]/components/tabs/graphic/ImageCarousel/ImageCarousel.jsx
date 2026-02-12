@@ -45,16 +45,6 @@ export default function ImageCarousel({ items = [] }) {
 
   return (
     <div className="wrap">
-      <div className="viewport" ref={emblaRef}>
-        <div className="container">
-          {items.map((item) => (
-            <div className="slide " key={item.id}>
-              <ImageCard item={item} />
-            </div>
-          ))}
-        </div>
-      </div>
-
       {/* แถบล่าง: dots ซ้าย / arrows ขวา */}
       <div className="bottomBar">
         <div className="dots" aria-label="Carousel Pagination">
@@ -78,6 +68,15 @@ export default function ImageCarousel({ items = [] }) {
           </button>
         </div>
       </div>
+      <div className="viewport" ref={emblaRef}>
+        <div className="container-carousel">
+          {items.map((item) => (
+            <div className="slide " key={item.id}>
+              <ImageCard item={item} />
+            </div>
+          ))}
+        </div>
+      </div>
 
       <style jsx>{`
         .wrap {
@@ -89,10 +88,11 @@ export default function ImageCarousel({ items = [] }) {
           border-radius: 18px;
         }
 
-        .container {
+        .container-carousel {
           display: flex;
           gap: 12px;
           padding: 4px;
+          width: 85%;
         }
 
         /* มือถือ: 1 การ์ด/สไลด์ */
@@ -111,6 +111,9 @@ export default function ImageCarousel({ items = [] }) {
           .slide {
             flex: 0 0 calc((100% - 24px) / 3);
           }
+          .container-carousel {
+            width: 100%;
+          }
         }
 
         .bottomBar {
@@ -118,7 +121,6 @@ export default function ImageCarousel({ items = [] }) {
           align-items: center;
           justify-content: space-between;
           gap: 12px;
-          margin-top: 10px;
         }
 
         /* dots ซ้ายล่าง */

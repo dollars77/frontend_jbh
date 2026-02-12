@@ -9,6 +9,7 @@ button {
 html,
 body {
   font-family: "Anuphan", sans-serif !important;
+    font-family: var(--font-anuphan), var(--font-noto-thai),system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
   font-weight: 500;
   color: black;
 }

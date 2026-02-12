@@ -5,6 +5,7 @@ import Image from 'next/image';
 import LanguageDropdown from './components/LanguageDropdown';
 import { social_links } from './function/social_links';
 import FloatingContacts from './components/FloatingContacts';
+import { Anuphan, Noto_Sans_Thai } from "next/font/google";
 export const metadata = {
   title: 'JBH-Studio',
   description: 'ขายธีมเว็บ รับออกแบบเว็บไซต์ครบวงจร รองรับทุกอุปกรณ์ สร้างเว็บไซต์ที่สวยงาม ใช้งานง่าย โหลดเร็ว',
@@ -14,12 +15,25 @@ export const metadata = {
     apple: '/jbh_512x512.ico',
   },
 };
+const anuphan = Anuphan({
+  subsets: ["thai", "latin"],
+  weight: ["100","200","300","400","500","600","700"],
+  display: "swap",
+  variable: "--font-anuphan",
+});
+
+const notoThai = Noto_Sans_Thai({
+  subsets: ["thai", "latin"],
+  weight: ["100","200","300","400","500","600","700","800","900"],
+  display: "swap",
+  variable: "--font-noto-thai",
+});
 export default async function LocaleLayout({ children, params }) {
   const { locale } = await params;
   const messages = await getMessages();
 
   return (
-    <html lang={locale} data-theme="dark">
+    <html lang={locale} data-theme="dark"  className={`${anuphan.variable} ${notoThai.variable}`}>
       <body>
         <AntdRegistry>
           <NextIntlClientProvider messages={messages}>
