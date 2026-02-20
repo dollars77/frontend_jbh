@@ -2,8 +2,10 @@
 import { useState, useEffect,useCallback  } from "react";
 import api from "@/config/api";
 import { useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
 
 export default function ProxyViewer() {
+  const t = useTranslations("Main");
   const [url, setUrl] = useState("");          // เริ่มเป็นค่าว่างก่อน
   const [proxyUrl, setProxyUrl] = useState("");
   const [loading, setLoading] = useState(false);
@@ -70,7 +72,7 @@ export default function ProxyViewer() {
         <div style={inputGroupStyle}>
           <button
             onClick={() => router.back()}
-            className=" text-shadow-1 text-white font-bold md:py-2 md:px-4 py-1 px-2 my-1 ml-2 rounded-md inline-flex items-center border-2"
+            className=" text-shadow-1  text-white font-bold md:py-2 md:px-4 py-1 px-2 my-1 ml-2 rounded-md inline-flex items-center border-2"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -86,7 +88,7 @@ export default function ProxyViewer() {
             >
               <path d="M11 17l-5-5 5-5M18 17l-5-5 5-5" />
             </svg>
-            <p className="ml-0.5 md:ml-2">ย้อนกลับ</p>
+            <p className="ml-0.5 md:ml-2">{t("back")}</p>
           </button>
         </div>
       </div>
@@ -115,7 +117,7 @@ export default function ProxyViewer() {
               <div style={placeholderStyle}>
                 <div>
                   <h2 style={{ color: "#666", marginBottom: "16px" }}>
-                    🌐 Website comingsoon
+                    🌐 {t("websitecomingsoon")}
                   </h2>
                 </div>
               </div>

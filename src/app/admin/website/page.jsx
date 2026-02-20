@@ -79,10 +79,13 @@ function Website() {
     try {
       const res = await apiauth.get(`api/website/allWebsiteOrderall`);
       const get_AllWebsite = res.data;
+      
       if (get_AllWebsite.length !== 0) {
         setWebsite(get_AllWebsite);
       }
     } catch (err) {
+      // console.log(err);
+      
       OpenNotification({ message: `เกิดข้อผิดพลาด`, type: 4 });
     }
     setLoadingWebsite(false);

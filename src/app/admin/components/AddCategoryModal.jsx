@@ -16,6 +16,7 @@ const AddCategoryModal = forwardRef(
   ({ isAddModalOpen, showModal, get_AllCategory, getId, allCategory }, ref) => {
     const URL_HOST = `${config.API_SERVER}`;
     const [namecategory, setNamecategory] = useState("");
+    const [namecategoryMM, setNamecategoryMM] = useState("");
     const [status, setStatus] = useState(true);
     const [msgErr1, setMsgErr1] = useState("");
 
@@ -35,6 +36,7 @@ const AddCategoryModal = forwardRef(
 
     const setForm = (findone) => {
       setNamecategory(findone.namecategory);
+      setNamecategoryMM(findone.namecategoryMM);
       setStatus(findone.status === 1 ? true : false);
       setIconPreviewcategory(
         findone.iconcategory ? `${URL_HOST}${findone.iconcategory}` : null
@@ -47,6 +49,7 @@ const AddCategoryModal = forwardRef(
     };
     const clearForm = () => {
       setNamecategory("");
+      setNamecategoryMM("");
       setStatus(true);
       setIconcategory(null);
       setIconPreviewcategory(null);
@@ -72,6 +75,7 @@ const AddCategoryModal = forwardRef(
       const formData = new FormData();
       formData.append("iconcategory", iconcategory);
       formData.append("namecategory", namecategory);
+      formData.append("namecategoryMM", namecategoryMM);
       formData.append("status", status ? 1 : 0);
 
       await apiForm
@@ -117,6 +121,7 @@ const AddCategoryModal = forwardRef(
       formData.append("iconcategory", iconcategory);
       formData.append("id", getId);
       formData.append("namecategory", namecategory);
+      formData.append("namecategoryMM", namecategoryMM);
       formData.append("checkiconcategory", checkiconcategory);
       formData.append("status", status ? 1 : 0);
 
@@ -291,13 +296,25 @@ const AddCategoryModal = forwardRef(
             </div>
             <div className="w-2"></div>
             <div className="w-full">
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                ชื่อ
+              <label className="block text-sm font-medium text-gray-700 mt-2">
+                ชื่อไทย
               </label>
               <input
                 type="text"
                 value={namecategory}
                 onChange={(e) => setNamecategory(e.target.value)}
+                className="block w-full px-2 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500"
+                autoComplete="off"
+              />
+            </div>
+            <div className="w-full">
+              <label className="block text-sm font-medium text-gray-700 mt-2">
+                ชื่อพม่า
+              </label>
+              <input
+                type="text"
+                value={namecategoryMM}
+                onChange={(e) => setNamecategoryMM(e.target.value)}
                 className="block w-full px-2 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500"
                 autoComplete="off"
               />

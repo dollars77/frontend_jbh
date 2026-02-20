@@ -13,20 +13,7 @@ const items = [
     image: "/promotion_image_carousel/th_3.png",
   },
 ];
-const items_en = [
-  {
-    image: "/promotion_image_carousel/th_1.png",
-  },
-  {
-    image: "/promotion_image_carousel/th_1.png",
-  },
-  {
-    image: "/promotion_image_carousel/th_1.png",
-  },
-  {
-    image: "/promotion_image_carousel/th_1.png",
-  },
-];
+
 const items_mm = [
   {
     image: "/promotion_image_carousel/mm_1.png",
@@ -44,7 +31,7 @@ function Graphic() {
   return (
     <ImageCarousel
       items={
-        locale === "th" ? items : locale === "en" ? items_en : items_mm
+        locale === "th" ? items :items_mm
       }
     />
   );

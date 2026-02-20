@@ -24,7 +24,7 @@ import {
 import imageEmpty from "@/public/emptyimg.jpg";
 import Swal from "sweetalert2";
 import apiauth from "@/config/apiauth";
-import {OpenNotification} from "@/components/OpenNotification";
+import { OpenNotification } from "@/components/OpenNotification";
 import Image from "next/image";
 import LoadingScreen from "@/src/components/LoadingScreen";
 import WebsiteModal from "./WebsiteModal";
@@ -56,12 +56,12 @@ function AllWebsiteWithCategory() {
     }),
     useSensor(KeyboardSensor, {
       coordinateGetter: sortableKeyboardCoordinates,
-    })
+    }),
   );
 
   const sortableItems = useMemo(
     () => website.map((item) => item.id),
-    [website]
+    [website],
   );
 
   // Responsive grid
@@ -104,7 +104,7 @@ function AllWebsiteWithCategory() {
     setLoadingWebsite(true);
     try {
       const res = await apiauth.get(
-        `api/website/allWebsiteInCategory/${params.id}`
+        `api/website/allWebsiteInCategoryAdmin/${params.id}`,
       );
       const get_AllWebsite = res.data;
       if (get_AllWebsite.length !== 0) {
@@ -130,14 +130,15 @@ function AllWebsiteWithCategory() {
       const newOrder = arrayMove(items, oldIndex, newIndex);
       const updatedItems = newOrder.map((item, index) => ({
         ...item,
-        order: (items.length)-(index + 1),
+        order: items.length - (index ),
       }));
-
+      
       handleOrderChange(updatedItems);
       return updatedItems;
     });
   }, []);
   const handleOrderChange = async (updatedItems) => {
+ 
     await apiauth
       .put(`api/website/updateOrderWebsite`, updatedItems)
       .catch((err) => {
@@ -261,10 +262,7 @@ function AllWebsiteWithCategory() {
                   height={512}
                   alt="Category Icon"
                   className="object-contain"
-                  priority
-                  onError={(e) => {
-                    e.target.src = imageEmpty;
-                  }}
+                  onError={()=>imageEmpty}
                 />
               ) : (
                 <Image
@@ -273,10 +271,10 @@ function AllWebsiteWithCategory() {
                   width={512}
                   height={512}
                   className="object-contain"
+                  onError={()=>imageEmpty}
                 />
               )}
             </div>
-
 
             <div className="flex gap-2 flex-col my-auto col-span-2">
               <p className="text-lg">ชื่อ : {oneCategory.namecategory}</p>
@@ -309,17 +307,23 @@ function AllWebsiteWithCategory() {
                     gridTemplateColumns: `repeat(${boxesPerRow}, minmax(0, 1fr))`,
                   }}
                 >
-                  {website.map((webs, index) => (
-                    <SortableWebsiteItem
-                      showCategory={false}
-                      key={webs.id}
-                      website={webs}
-                      index={index}
-                      URL_HOST={URL_HOST}
-                      showModalWebsiteEdit={showModalWebsiteEdit}
-                      showDeleteConfirm={showDeleteConfirm}
-                    />
-                  ))}
+                  {website.length !== 0 ? (
+                    <>
+                      {website.map((webs, index) => (
+                        <SortableWebsiteItem
+                          showCategory={false}
+                          key={webs.id}
+                          website={webs}
+                          index={index}
+                          URL_HOST={URL_HOST}
+                          showModalWebsiteEdit={showModalWebsiteEdit}
+                          showDeleteConfirm={showDeleteConfirm}
+                        />
+                      ))}
+                    </>
+                  ) : (
+                    <></>
+                  )}
                 </div>
               </SortableContext>
             </DndContext>

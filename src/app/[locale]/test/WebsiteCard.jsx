@@ -3,7 +3,10 @@ import Image from "next/image";
 import config from "@/config/configapi";
 import Lottie from "lottie-react";
 import hot_icon_anime from "@/public/json/hot_icon_anime3.json";
+import { useTranslations } from "next-intl";
+
 const WebsiteCard = ({ website }) => {
+  const t = useTranslations('Main');
   const [imageError, setImageError] = useState(false);
   const [imageLoading, setImageLoading] = useState(true);
   const URL_HOST = `${config.API_SERVER}`;
@@ -29,7 +32,7 @@ const WebsiteCard = ({ website }) => {
           mobile: website.imagemobile ? URL_HOST + website.imagemobile : null,
         });
       } catch (err) {
-        console.error("โหลดรูปไม่สำเร็จ", err);
+        console.error(`${t("loadingimg_err")}`, err);
       }
     }
     fetchImages();
@@ -169,7 +172,7 @@ const WebsiteCard = ({ website }) => {
                   <rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect>
                   <line x1="12" y1="18" x2="12.01" y2="18"></line>
                 </svg>
-                <p className="ml-2">มือถือ</p>
+                <p className="ml-2">{t("mobile")}</p>
               </a>
             </div>
 
@@ -291,7 +294,7 @@ const WebsiteCard = ({ website }) => {
                 d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
               />
             </svg>
-            <span>ดูรูปภาพ</span>
+            <span>{t("view_img")}</span>
           </button>
         </div>
         {isValidImage ? (
@@ -371,7 +374,7 @@ const WebsiteCard = ({ website }) => {
                   <path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" />
                   <path d="M21 21l-6 -6" />
                 </svg>
-                <span className="text-xs lg:text-sm">ชมเว็บไซต์</span>
+                <span className="text-xs lg:text-sm">{t("view_web")}</span>
               </div>
             </div>
           </button>

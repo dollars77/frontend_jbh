@@ -151,6 +151,16 @@ const Dashboard = () => {
       ),
     },
     {
+      title: `ชื่อพม่า`,
+      dataIndex: "namecategoryMM",
+      render: (namecategoryMM) => (
+        <p className="text-sm font-semibold  my-auto truncate">
+          {" "}
+          {namecategoryMM}
+        </p>
+      ),
+    },
+    {
       title: `สถานะ`,
       dataIndex: "status",
       render: (status) => (
@@ -224,7 +234,7 @@ const Dashboard = () => {
             try {
               get_AllCategory();
             } catch (error) {
-              console.log("Failed:", error);
+              // console.log("Failed:", error);
             }
             try {
               if (allCategory.iconcategory !== null) {

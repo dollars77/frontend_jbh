@@ -29,7 +29,8 @@ import {TOKEN_KEY} from '@/config/token_key';
 
 // ตั้งค่า next-intl middleware (ส่วนหน้าบ้าน)
 const intlMiddleware = createIntlMiddleware({
-  locales: ['th', 'en', 'mm'],
+  // locales: ['th', 'en', 'mm'],
+  locales: ['th',  'mm'],
   defaultLocale: 'th'
 });
 

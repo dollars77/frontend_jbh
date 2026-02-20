@@ -23,6 +23,7 @@ import {
   Select,
   MenuItem,
   CircularProgress,
+  Chip,
 } from "@mui/material";
 
 const WebsiteModal = forwardRef(
@@ -35,7 +36,7 @@ const WebsiteModal = forwardRef(
       allWebsite,
       categoryId,
     },
-    ref
+    ref,
   ) => {
     const URL_HOST = `${config.API_SERVER}`;
     const [websitename, setWebsitename] = useState("");
@@ -56,7 +57,9 @@ const WebsiteModal = forwardRef(
     const [checkimagemobile, setCheckimagemobile] = useState(false);
 
     const [category, setCategory] = useState([]);
-    const [selectedCategory, setSelectedCategory] = useState(categoryId || 1);
+    const [selectedCategories, setSelectedCategories] = useState([]);
+    // let selectedCategoriesOrder = [];
+    const [selectedCategoriesOld, setSelectedCategoriesOld] = useState([]);
     const [loadingSelected, setLoadingSelected] = useState(true);
 
     const [selectedCover, setSelectedCover] = useState(0);
@@ -65,6 +68,7 @@ const WebsiteModal = forwardRef(
     useEffect(() => {
       clearForm();
       get_Category();
+
       if (getId != null) {
         const findone = allWebsite.find((obj) => obj.id === getId);
         if (findone) {
@@ -89,18 +93,20 @@ const WebsiteModal = forwardRef(
       setLoadingSelected(false);
     };
     const handleChangeCategory = (event) => {
-      setSelectedCategory(event.target.value);
+      const value = event.target.value;
+      setSelectedCategories(value);
     };
     const handleChangeCover = (event) => {
       setSelectedCover(event.target.value);
     };
 
     // หาข้อมูลผู้ใช้ที่ถูกเลือก
-    const selectedCategoryData = category.find(
-      (categorys) => categorys.id === selectedCategory
+    const selectedCategoryDataList = category.filter((c) =>
+      // selectedCategoriesOrder.includes(c.oder),
+      selectedCategories.includes(c.id),
     );
     const selectedCoverData = category.find(
-      (categorys) => categorys.cover === selectedCover
+      (categorys) => categorys.cover === selectedCover,
     );
 
     const setForm = (findone) => {
@@ -110,18 +116,28 @@ const WebsiteModal = forwardRef(
       setStatus(findone.status === 1 ? true : false);
       setSelectedCover(parseInt(findone.cover));
       setImagepcPreview(
-        findone.imagepc ? `${URL_HOST}${findone.imagepc}` : null
+        findone.imagepc ? `${URL_HOST}${findone.imagepc}` : null,
       );
       setImagepc(findone.imagepc ? `${URL_HOST}${findone.imagepc}` : null);
       setImagepcBackup(findone.imagepc);
       setImagemobilePreview(
-        findone.imagemobile ? `${URL_HOST}${findone.imagemobile}` : null
+        findone.imagemobile ? `${URL_HOST}${findone.imagemobile}` : null,
       );
       setImagemobile(
-        findone.imagemobile ? `${URL_HOST}${findone.imagemobile}` : null
+        findone.imagemobile ? `${URL_HOST}${findone.imagemobile}` : null,
       );
       setImagemobileBackup(findone.imagemobile);
-      setSelectedCategory(findone.categoryId);
+      if (
+        Array.isArray(findone.category_websites) &&
+        findone.category_websites.length
+      ) {
+        const ids = findone.category_websites.map((cw) => cw.categoryId);
+        setSelectedCategories(ids);
+        setSelectedCategoriesOld(ids);
+      } else {
+        setSelectedCategories([]);
+        setSelectedCategoriesOld([]);
+      }
     };
     const clearForm = () => {
       setWebsitename("");
@@ -137,7 +153,8 @@ const WebsiteModal = forwardRef(
       setImagemobileBackup({});
       setCheckimagemobile(false);
       setMsgErr1("");
-      setSelectedCategory(categoryId || 1);
+      setSelectedCategories(categoryId ? [categoryId] : []);
+      setSelectedCategoriesOld(categoryId ? [categoryId] : []);
       setSelectedCover(0);
     };
     useImperativeHandle(ref, () => ({
@@ -155,6 +172,7 @@ const WebsiteModal = forwardRef(
       }
       setMsgErr1("");
       setIsLoading(true);
+
       const formData = new FormData();
       formData.append("imagepc", imagepc);
       formData.append("imagemobile", imagemobile);
@@ -162,15 +180,17 @@ const WebsiteModal = forwardRef(
       formData.append("websiteurl", websiteurl);
       formData.append("description", description);
       formData.append("status", status ? 1 : 0);
-      formData.append("categoryId", selectedCategory);
+      formData.append("categoryId", JSON.stringify(selectedCategories));
+      console.log([...formData.entries()]);
+      // selectedCategories.forEach((id) => formData.append("categoryIds[]", id));
       formData.append("cover", selectedCover);
 
       await apiForm
         .post(`api/website/addWebsite`, formData)
-        .then((res) => {
+        .then(async (res) => {
           OpenNotification({ message: `เสร็จสิ้น`, type: 1 });
           showModal();
-          get_AllWebsite();
+
           return res.data;
         })
         .catch((err) => {
@@ -181,6 +201,7 @@ const WebsiteModal = forwardRef(
               })
             : OpenNotification({ message: `เกิดข้อผิดพลาด`, type: 4 });
         });
+      await get_AllWebsite();
       setIsLoading(false);
     };
     const UpdateWebsite = async () => {
@@ -216,6 +237,7 @@ const WebsiteModal = forwardRef(
       } catch (e) {}
 
       const formData = new FormData();
+
       formData.append("imagepc", imagepc);
       formData.append("imagemobile", imagemobile);
       formData.append("id", getId);
@@ -225,15 +247,22 @@ const WebsiteModal = forwardRef(
       formData.append("checkimagemobile", checkimagemobile);
       formData.append("checkimagepc", checkimagepc);
       formData.append("status", status ? 1 : 0);
-      formData.append("categoryId", selectedCategory);
+      formData.append("categoryId", JSON.stringify(selectedCategories));
+      formData.append("categoryIdOld", JSON.stringify(selectedCategoriesOld));
       formData.append("cover", selectedCover);
+      formData.append(
+        "checkCategory",
+        selectedCategories === selectedCategoriesOld,
+      );
       setIsLoading(true);
+      // console.log([...formData.entries()]);
+
       await apiForm
         .put(`api/website/updateWebsite`, formData)
-        .then((res) => {
+        .then(async (res) => {
           OpenNotification({ message: `เสร็จสิ้น`, type: 1 });
           showModal();
-          get_AllWebsite();
+
           return res.data;
         })
         .catch((err) => {
@@ -244,6 +273,7 @@ const WebsiteModal = forwardRef(
               })
             : OpenNotification({ message: `เกิดข้อผิดพลาด`, type: 4 });
         });
+      await get_AllWebsite();
       setIsLoading(false);
     };
     const handleDelImagepc = (e) => {
@@ -589,33 +619,34 @@ const WebsiteModal = forwardRef(
           </div>
           <div>
             <FormControl fullWidth>
-              <InputLabel id="user-select-label">เลือกหมวดหมู่</InputLabel>
+              <InputLabel id="category-select-label">เลือกหมวดหมู่</InputLabel>
               <Select
-                labelId="user-select-label"
-                id="user-select"
-                value={selectedCategory}
+                labelId="category-select-label"
+                id="category-select"
+                multiple
+                value={selectedCategories}
                 label="เลือกหมวดหมู่"
                 onChange={handleChangeCategory}
-                disabled={categoryId === null ? loadingSelected : true}
+                // disabled={categoryId !== null ? true : loadingSelected} // เหมือนของเดิม (ถ้าส่ง categoryId มาจะล็อค)
                 size="small"
                 color="success"
-                renderValue={(selected) => {
-                  if (!selected || !selectedCategoryData) {
-                    return "";
-                  }
-
-                  return (
-                    <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-                      <Avatar
-                        src={`${URL_HOST}${selectedCategoryData.iconcategory}`}
-                        sx={{ width: 24, height: 24 }}
+                renderValue={() => (
+                  <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
+                    {selectedCategoryDataList.map((c) => (
+                      <Chip
+                        key={c.id}
+                        size="small"
+                        label={c.namecategory}
+                        avatar={
+                          <Avatar
+                            src={`${URL_HOST}${c.iconcategory}`}
+                            sx={{ width: 20, height: 20 }}
+                          />
+                        }
                       />
-                      <Typography variant="body1">
-                        {selectedCategoryData.namecategory}
-                      </Typography>
-                    </Box>
-                  );
-                }}
+                    ))}
+                  </Box>
+                )}
               >
                 {loadingSelected ? (
                   <MenuItem disabled>
@@ -667,7 +698,7 @@ const WebsiteModal = forwardRef(
         </Modal>
       </div>
     );
-  }
+  },
 );
 
 export default WebsiteModal;

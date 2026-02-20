@@ -10,7 +10,7 @@ import icon_mm from "@/public/mm_icon.png";
 
 const LOCALES = [
   { code: "th", label: "ไทย", icon: icon_th },
-  { code: "en", label: "English", icon: icon_en },
+  // { code: "en", label: "English", icon: icon_en },
   { code: "mm", label: "မြန်မာ", icon: icon_mm },
 ];
 

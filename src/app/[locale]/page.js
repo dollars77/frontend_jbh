@@ -1,45 +1,33 @@
 import Image from "next/image";
 import { useTranslations } from 'next-intl';
 
-import EmblaCarousel from "@/components/EmblaCarousel/EmblaCarousel";
-import SL1 from "@/public/head_carousel/SL_1.jpg";
-import SL2 from "@/public/head_carousel/SL_2.jpg";
-import SL3 from "@/public/head_carousel/SL_3.jpg";
-import SL4 from "@/public/head_carousel/SL_4.jpg";
+
 import CategoryTabs from './test/page';
 import DaisyTab from "./components/DaisyTab";
 
 import { social_links } from "./function/social_links";
+import HeaderSilder from "./components/Header_Silder/HeaderSilder";
 
 function Main() {
-    const t = useTranslations('Home');
-    const slides = [
-        SL1,
-        SL2,
-        SL3,
-        SL4,
-    ];
+    const t = useTranslations('Main');
+ 
 
     return (
         <div className="">
             <div className="mx-auto relative">
-                <EmblaCarousel
-                    slides={slides}
-                    options={{ loop: true, align: "center" }}
-                    autoplayDelay={2500}
-                />
+                <HeaderSilder/>
                 <h1 className="font-semibold text-2xl lg:text-4xl text-center mt-5" style={{ zIndex: "4", position: "relative" }}>
-                    บริการรับออกแบบเว็บไซต์ ให้สวยโดดเด่นเหนือใคร
+                    {t("headtxt1")}
                 </h1>
                 <h1 className="text-sm lg:text-lg text-center mt-3 " style={{ zIndex: "4", position: "relative" }}>
-                    การันตีผลลัพธ์ที่ยอดเยี่ยม จากประสบการณ์การออกแบบมากกว่า 10 ปี
+                    {t("headtxt2")}
                 </h1>
                 <h1 className="text-sm lg:text-lg text-center " style={{ zIndex: "4", position: "relative" }}>
-                    ออกแบบเว็บไซต์สวยตรงใจ สามารถจัดการคอนเทนท์ตามที่ต้องการ
+                    {t("headtxt2_2")}
                 </h1>
                 <div className="text-center my-2 lg:my-5 " style={{ zIndex: "4", position: "relative" }}>
-                    <h1 className="drop-shadow-[0_2px_1px_#c9c9c9] text-center bg-gradient-to-r from-red-600 to-orange-400 inline-block text-transparent bg-clip-text text-2xl lg:text-5xl font-extrabold">
-                        งานเร็ว งานสวย ราคาประหยัด
+                    <h1 className="drop-shadow-[0_2px_1px_#c9c9c9] text-center bg-gradient-to-r from-red-600 to-orange-400 inline-block text-transparent bg-clip-text text-2xl lg:text-2xl py-1 font-extrabold">
+                        {t("headtxt3")}
                     </h1>
                 </div>
 
@@ -101,21 +89,22 @@ function Main() {
                                 height="77"
                             />
 
-                            <span className="-text">
-                                <div className="textwidget">ราคา / แพ็กเกจ</div>
+                            {/* <span className={"-text "+`${locale === "th" ? "" : "text-sm"}`}> */}
+                            <span className={"-text "}>
+                                <div className="textwidget">{t("price/package")}</div>
                             </span>
                         </a>
                     </div>
                 </div>
 
                 <CategoryTabs />
-                <div className="relative w-full lg:w-3/4 mx-auto my-3 lg:my-10" id="package">
+                {/* <div className="relative w-full lg:w-3/4 mx-auto my-3 lg:my-10" id="package">
                     <Image src={"/line_animation.gif"} width={1000} style={{ filter: "drop-shadow(16px 16px 20px red) invert(55%)" }}
                         height={1}
                         alt={"JBH"}
 
                         className="w-full h-1 rounded-full" />
-                </div>
+                </div> */}
                 <div className="relative w-full lg:w-3/4 mx-auto my-4"><DaisyTab /></div>
 
                 <footer className="bg-[#08182b] px-4 lg:px-0  py-5 text-white w-full">
@@ -130,12 +119,11 @@ function Main() {
                                     className="w-20 h-full"
                                 />
                             </div>
-                            <span className="text-sm md:text-base">เราคือที่ 1 ในเรื่องออกแบบและดีไซน์เว็บไซต์ให้ได้มาตรฐานสากลเพื่อคุณภาพในการใช้โปรโมทและภาพลักษณ์ที่ดีสำหรับลูกค้าของท่าน ธีมราคาถูกและมีคุณภาพมีที่นี่ที่เดียวในไทย
-                                เราเป็นเพียงผู้ให้บริการออกแบบและขายธีมดีไซน์เว็บไซต์เท่านั้นไม่มีระบบออโต้ ระบบเกมใดๆทั้งสิ้น</span>
+                            <span className="text-sm md:text-base">{t("footertxt1")}</span>
                         </div>
                         <div className="flex flex-col gap-2 justify-center lg:justify-end  text-center lg:text-right">
                             <div className="h-0.5 bg-white flex md:hidden"></div>
-                            <span className="mb-2 ">ติดต่อเรา</span>
+                            <span className="mb-2 ">{t("contact_us")}</span>
                             <a target="_blank" rel="noopener noreferrer " href={social_links.facebook} className="flex justify-center lg:justify-end">
                                 <Image
                                     width={600}

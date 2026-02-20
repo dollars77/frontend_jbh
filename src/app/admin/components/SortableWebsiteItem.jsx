@@ -95,22 +95,32 @@ const SortableWebsiteItem = React.memo(function SortableWebsiteItem({
           </div>
         </div>
         {showCategory ? (
-          <Box
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              gap: 1,
-              justifyContent: "start",
-            }}
-          >
-            <Avatar
-              src={`${URL_HOST}${website.category.iconcategory}`}
-              sx={{ width: 15, height: 15 }}
-            />
-            <p className="text-xs text-gray-500 font-semibold">
-              {website.category.namecategory}
-            </p>
-          </Box>
+          <div className="w-full truncate  flex gap-3 ">
+            {" "}
+            {website.category_websites.length !== 0 ? (
+              website.category_websites.map((data, index) => (
+                <Box
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 0.5,
+                    justifyContent: "start",
+                  }}
+                  key={index}
+                >
+                  <Avatar
+                    src={`${URL_HOST}${data.category.iconcategory}`}
+                    sx={{ width: 15, height: 15 }}
+                  />
+                  <p className="text-[10px] text-gray-500 font-semibold">
+                    {data.category.namecategory}
+                  </p>
+                </Box>
+              ))
+            ) : (
+              <></>
+            )}
+          </div>
         ) : (
           <></>
         )}

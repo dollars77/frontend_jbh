@@ -1,13 +1,17 @@
 import Image from "next/image";
 import { social_links } from "../../../function/social_links";
-export default function Card({ item }) {
+import { useTranslations } from "next-intl";
+export default function Card({ item }) {  
+  const t = useTranslations("Main");
   return (
     <div className="overflow-hidden rounded-2xl bg-white shadow-[0_18px_10px_rgba(0,0,0,0.18)] h-[590] md:h-[600] lg:h-[680px]">
       <div
         className={
-          `relative bg-gradient-to-b  px-6 pb-4 pt-5 text-center text-white ` +
-          `${item.color}`
+          `relative bg-gradient-to-r  px-6 pb-4 pt-5 text-center text-white ` 
+          //  + `${item.color[0]} ${item.color[1]}`
+
         }
+        style={{background:`radial-gradient(circle,${item.color[0]} 0%, ${item.color[1]} 100%)`}}
       >
         <div className="mb-3 flex items-center justify-center gap-3 relative">
           <Image
@@ -15,14 +19,14 @@ export default function Card({ item }) {
             width={512}
             height={512}
             alt="JBH"
-            className="w-24  lg:w-28 h-full drop-shadow-[0_3px_20px_rgba(0,0,0,0.4)]"
+            className="w-24  lg:w-28 h-full drop-shadow-[0_3px_5px_#4f4f4f]"
           />
         </div>
 
-        <div className="text-4xl font-extrabold tracking-tight">
+        <div className="text-4xl font-extrabold tracking-tight [text-shadow:1px_1px_2px_black]">
           {item.price}
         </div>
-        <div className="mt-1 text-lg font-semibold">{item.planName}</div>
+        <div className="mt-1 text-lg font-semibold [text-shadow:1px_1px_2px_black]">{item.planName}</div>
       </div>
       <div className="relative w-full " id="package">
         <Image
@@ -75,7 +79,7 @@ export default function Card({ item }) {
             href={social_links.line}
             className="rounded-xl bg-green-600 px-6 py-3 text-white shadow-md transition hover:bg-green-700 active:scale-[0.99] text-[15px] lg:text-[17px] "
           >
-            ติดต่อเรา
+            {t("contact_us")}
           </a>
         </div>
       </div>

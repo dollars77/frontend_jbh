@@ -60,10 +60,14 @@ export default function ImageCarousel({ items = [] }) {
         </div>
 
         <div className="controls">
-          <button className="btn" onClick={scrollPrev} aria-label="Previous">
+          <button
+            className="btn_silder"
+            onClick={scrollPrev}
+            aria-label="Previous"
+          >
             ‹
           </button>
-          <button className="btn" onClick={scrollNext} aria-label="Next">
+          <button className="btn_silder" onClick={scrollNext} aria-label="Next">
             ›
           </button>
         </div>
@@ -112,7 +116,7 @@ export default function ImageCarousel({ items = [] }) {
             flex: 0 0 calc((100% - 24px) / 3);
           }
           .container-carousel {
-            width: 100%;
+            width: 85%;
           }
         }
 
@@ -159,18 +163,18 @@ export default function ImageCarousel({ items = [] }) {
           justify-content: flex-end;
         }
 
-        .btn {
+        .btn_silder {
           width: 40px;
           height: 36px;
           border-radius: 10px;
           border: 1px solid rgba(255, 255, 255, 0.18);
-          background: rgba(255, 255, 255, 0.06);
+          background: #dbdbdb;
           cursor: pointer;
           font-size: 20px;
           line-height: 0;
         }
 
-        .btn:active {
+        .btn_silder:active {
           transform: translateY(1px);
         }
       `}</style>

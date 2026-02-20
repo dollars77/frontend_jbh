@@ -3,8 +3,10 @@ import { useState } from "react";
 import Website from "./tabs/website/Website";
 import Graphic from "./tabs/graphic/Graphic";
 import Video from "./tabs/video/Video";
+import { useTranslations } from "next-intl";
 
 export default function DaisyTab() {
+  const t = useTranslations('Main');
   const [activeTab, setActiveTab] = useState(1);
 
   return (
@@ -16,19 +18,19 @@ export default function DaisyTab() {
             className={`tab   ${activeTab === 1 ? "tab-active" : ""}`}
             onClick={() => setActiveTab(1)}
           >
-            Website
+            {t("website")}
           </a>
           <a role="tab"
             className={`tab  ${activeTab === 2 ? "tab-active bg-red-600" : ""}`}
             onClick={() => setActiveTab(2)}
           >
-            Graphic
+            {t("graphic")}
           </a>
           <a role="tab"
             className={`tab ${activeTab === 3 ? "tab-active" : ""}`}
             onClick={() => setActiveTab(3)}
           >
-            Video
+             {t("video")}
           </a>
         </div>
       </div>

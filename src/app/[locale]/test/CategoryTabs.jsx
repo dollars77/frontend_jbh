@@ -6,12 +6,15 @@ import Image from "next/image";
 import { useTranslations } from "next-intl";
 
 const VerticalTabs = ({ categories }) => {
-    const t = useTranslations('Main');
+  const t = useTranslations("Main");
+
 
   const [activeTab, setActiveTab] = useState(null);
   const URL_HOST = `${config.API_SERVER}`;
 
   useEffect(() => {
+    console.log(categories);
+    
     if (categories.length > 0 && !activeTab) {
       setActiveTab(categories[0].id);
     }
@@ -22,7 +25,7 @@ const VerticalTabs = ({ categories }) => {
   if (categories.length === 0) {
     return (
       <div className="flex items-center justify-center min-h-screen">
-        <div className="text-lg text-gray-600">No categories available</div>
+        <div className="text-lg text-gray-600">{t("no_website_available")}</div>
       </div>
     );
   }
@@ -53,7 +56,9 @@ const VerticalTabs = ({ categories }) => {
                           src={
                             index === 0
                               ? category.iconcategory
-                              : URL_HOST + category.iconcategory
+                              : category.iconcategory !== null
+                                ? URL_HOST + category.iconcategory
+                                : categories[0].iconcategory
                           }
                         />
                       </div>
@@ -75,11 +80,8 @@ const VerticalTabs = ({ categories }) => {
             <div className="bg-white rounded-lg shadow-sm border border-gray-200">
               <div className="p-2 lg:p-6 border-b border-gray-200">
                 <div className="flex items-center gap-3">
-                  <p className="text-xs lg:text-base text-center font-semibold text-gray-900">
-                    (Full Wordpress Landing Page) รับออกแบบเว็บไซต์ Wordpress
-                    (Unlimited ฟรี!!)
-                    ซึ่งท่านจะได้รับธีมตามที่โชว์ทั้งหมดทุกส่วนและท่านสามารถจัดการ
-                    รูปภาพ,ข้อความ,พื้นหลังได้ทั้งหมด
+                  <p className="text-xs lg:text-base text-center  text-gray-900">
+                    {t("tabheadtxt")}
                   </p>
                 </div>
               </div>
@@ -90,7 +92,7 @@ const VerticalTabs = ({ categories }) => {
                     {activeCategory.websites.map((website) => (
                       <div
                         key={website.id}
-                        className="p-1 lg:p-3 border border-gray-200 rounded-xl hover:shadow-md transition-shadow duration-200 hover:border-blue-300"
+                        className="p-1 lg:p-2 border border-gray-200 rounded-xl hover:shadow-md transition-shadow duration-200 hover:border-blue-300"
                       >
                         <div>
                           <WebsiteCard index={website.id} website={website} />
@@ -103,9 +105,7 @@ const VerticalTabs = ({ categories }) => {
                     <div className="text-gray-400 mb-2">
                       <div className="w-12 h-12 mx-auto text-4xl">📁</div>
                     </div>
-                    <p className="text-gray-500">
-                      No websites available for this category
-                    </p>
+                    <p className="text-gray-500">{t("no_website_available")}</p>
                   </div>
                 )}
               </div>
