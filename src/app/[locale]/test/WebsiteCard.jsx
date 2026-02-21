@@ -344,7 +344,7 @@ const WebsiteCard = ({ website }) => {
       </div>
 
       {/* Website Name */}
-      <div className="absolute bottom-1 left-1 lg:bottom-2 lg:left-2 z-20 ">
+      <div className="absolute bottom-0.5 left-1 lg:bottom-2 lg:left-2 z-20 ">
         <span className="bg-black/40 backdrop-blur-3xl text-orange-400 text-xs font-semibold px-3 py-1.5 rounded-lg shadow-lg">
           {website.websitename || "Coming soon"}
         </span>
@@ -355,9 +355,9 @@ const WebsiteCard = ({ website }) => {
               setShowMobileActions(false);
               handleClickURL(website.websiteurl);
             }}
-            className="w-full  bg-[linear-gradient(#e9e9e9,#e9e9e9_50%,#fff)] group  h-8 lg:h-10 inline-flex transition-all duration-300 overflow-visible p-1 rounded-xl group"
+            className="w-full  bg-[linear-gradient(#e9e9e9,#e9e9e9_50%,#fff)] group  h-8 lg:h-10 inline-flex transition-all duration-300 overflow-visible p-1 rounded-lg lg:rounded-xl group"
           >
-            <div className="w-full h-full bg-[linear-gradient(to_top,#ececec,#fff)] overflow-hidden shadow-[0_0_1px_rgba(0,0,0,0.07),0_0_1px_rgba(0,0,0,0.05),0_3px_3px_rgba(0,0,0,0.25),0_1px_3px_rgba(0,0,0,0.12)] p-0.5 lg:p-1 rounded-lg hover:shadow-none duration-300">
+            <div className="w-full h-full bg-[linear-gradient(to_top,#ececec,#fff)] overflow-hidden shadow-[0_0_1px_rgba(0,0,0,0.07),0_0_1px_rgba(0,0,0,0.05),0_3px_3px_rgba(0,0,0,0.25),0_1px_3px_rgba(0,0,0,0.12)] p-0.5 lg:p-1 rounded-md lg:rounded-lg hover:shadow-none duration-300">
               <div className="w-full h-full  gap-x-0.5 gap-y-0.5 justify-center text-[#101010] bg-[linear-gradient(#f4f4f4,#fefefe)] group-hover:bg-[linear-gradient(#e2e2e2,#fefefe)] duration-200 items-center text-[18px] font-medium gap-4 inline-flex overflow-hidden px-2 lg:px-3 py-2 rounded-full black group-hover:text-orange-600">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
