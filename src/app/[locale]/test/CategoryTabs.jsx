@@ -34,16 +34,18 @@ const VerticalTabs = ({ categories }) => {
     <div className="min-h-screen  ">
       <div className="max-w-7xl mx-auto ">
         <div className="flex gap-1">
-          <div className="w-20 sm:w-24 md:w-40 lg:w-52 flex-shrink-0 sticky top-2">
+            {/* Content Area - Left Side */}
+          {/* <div className="w-28 md:w-40 lg:w-52 flex-shrink-0 sticky top-2 self-start max-h-[calc(100vh-16px)] overflow-y-auto"> */}
+          <div className="w-28 md:w-40 lg:w-52 flex-shrink-0 sticky top-14 md:top-16 lg:top-20 self-start ">
             <div className="bg-white rounded-md shadow-sm border border-gray-200 ">
               <div className="p-1 md:p-2">
                 {categories.map((category, index) => (
                   <button
                     key={category.id}
                     onClick={() => setActiveTab(category.id)}
-                    className={`w-full flex flex-col items-center p-1 md:p-3 rounded-md transition-all duration-200 mb-1 md:mb-2 ${
+                    className={`w-full flex flex-col items-center py-1 md:py-3 rounded-md transition-all duration-200 mb-1 md:mb-2 ${
                       activeTab === category.id
-                        ? "bg-blue-50 text-blue-700 border-2 border-blue-200"
+                        ? "bg-blue-50 text-blue-800 border-2 border-blue-400"
                         : "text-gray-600 hover:bg-gray-50 hover:text-gray-900 border-2  border-gray-200"
                     }`}
                   >
@@ -86,7 +88,8 @@ const VerticalTabs = ({ categories }) => {
                 </div>
               </div>
 
-              <div className=" p-2 lg:p-6 max-h-screen overflow-y-scroll">
+              {/* <div className=" p-2 lg:p-6 max-h-screen overflow-y-scroll"> */}
+              <div className=" p-2 lg:p-6   ">
                 {activeCategory?.websites.length > 0 ? (
                   <div className="grid gap-2 lg:gap-4 sm:grid-cols-1 md:grid-cols-2 xl:grid-cols-3">
                     {activeCategory.websites.map((website) => (

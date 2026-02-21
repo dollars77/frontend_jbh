@@ -4,7 +4,7 @@ import { AntdRegistry } from '@ant-design/nextjs-registry';
 import Image from 'next/image';
 import LanguageDropdown from './components/LanguageDropdown';
 import { social_links } from './function/social_links';
-import FloatingContacts from './components/FloatingContacts';
+import FloatingContacts from './components/FloatingContacts2';
 import { Anuphan, Noto_Sans_Thai,Noto_Sans_Myanmar } from "next/font/google";
 import localFont from 'next/font/local'
  
@@ -12,7 +12,6 @@ import localFont from 'next/font/local'
 // const myFont = localFont({
 //   src: '/Pyidaungsu-2.5.3_Regular.ttf',
 // })
-const myFont = localFont({ src: './Pyidaungsu-2.5.3_Regular.ttf' })
 
 export const metadata = {
   title: 'JBH-Studio',
@@ -30,12 +29,7 @@ const anuphan = Anuphan({
   variable: "--font-anuphan",
 });
 
-// const notoThai = Noto_Sans_Thai({
-//   subsets: ["thai", "latin"],
-//   weight: ["100","200","300","400","500","600","700","800","900"],
-//   display: "swap",
-//   variable: "--font-noto-thai",
-// });
+
 const notoThai = localFont({
   src: './Kanit.ttf',
   display: "swap",

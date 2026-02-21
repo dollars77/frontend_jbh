@@ -105,7 +105,7 @@ function Main() {
 
                         className="w-full h-1 rounded-full" />
                 </div> */}
-                <div className="relative w-full lg:w-3/4 mx-auto my-4"><DaisyTab /></div>
+                <div className="relative w-full lg:w-3/4 mx-auto my-4 scroll-mt-20" id="package" ><DaisyTab /></div>
 
                 <footer className="bg-[#08182b] px-4 lg:px-0  py-5 text-white w-full">
                     <div className="grid gap-2 grid-cols-1 md:grid-cols-2 w-full lg:w-3/4 mx-auto">
