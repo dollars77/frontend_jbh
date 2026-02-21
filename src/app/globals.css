@@ -9,19 +9,19 @@ button {
 html,
 body {
   /* font-family: "Anuphan", sans-serif !important; */
-    /* font-family: var(--font-anuphan), var(--font-noto-thai),system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif; */
+  /* font-family: var(--font-anuphan), var(--font-noto-thai),system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif; */
   font-weight: 500;
   color: black;
-    scroll-behavior: smooth;
+  scroll-behavior: smooth;
 }
-.font-noto-thai{
+.font-noto-thai {
   font-family: var(--font-noto-thai), system-ui, sans-serif;
 }
 
 .font-noto-myanmar {
   font-family: var(--font-noto-myanmar), system-ui, sans-serif;
   font-size: 14px;
-   line-height: 2;
+  line-height: 2;
 }
 .body_background_front {
   background-image: linear-gradient(
@@ -166,7 +166,6 @@ body {
       width: 80px;
       height: 80px;
     }
-
   }
 }
 
@@ -374,5 +373,50 @@ body {
 
   100% {
     transform: translate(0) rotate(0);
+  }
+}
+
+.-btn-actionschat {
+  position: absolute;
+
+  -webkit-transform: translateY(-50%);
+  transform: translateY(-50%);
+  border-radius: 40px;
+  -webkit-animation: x-index-button-register-circle-sonar2 2s infinite;
+  animation: x-index-button-register-circle-sonar2 2s infinite;
+  transition: all 1s linear;
+
+  box-shadow: 0 0 10px 3px #10cc07;
+}
+
+@-webkit-keyframes x-index-button-register-circle-sonar2 {
+  0% {
+    opacity: 0.3;
+    -webkit-transform: scale(1) translate(0);
+    transform: scale(1) translate(0);
+  }
+  40% {
+    opacity: 0.5;
+  }
+  to {
+    -webkit-transform: scale(1.4) translate(0);
+    transform: scale(1.4) translate(0);
+    opacity: 0;
+  }
+}
+
+@keyframes x-index-button-register-circle-sonar2 {
+  0% {
+    opacity: 0.3;
+    -webkit-transform: scale(1) translate(0);
+    transform: scale(1) translate(0);
+  }
+  40% {
+    opacity: 0.5;
+  }
+  to {
+    -webkit-transform: scale(1.4) translate(0);
+    transform: scale(1.4) translate(0);
+    opacity: 0;
   }
 }
