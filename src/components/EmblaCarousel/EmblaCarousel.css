@@ -6,19 +6,24 @@
 .embla__viewport {
   overflow: hidden;
   width: 100%;
+   padding: 0 12px; 
 }
 
 .embla__container {
   display: flex;
-  gap: 12px;
+  /* gap: 12px; */
   user-select: none;
   -webkit-touch-callout: none;
   -webkit-tap-highlight-color: transparent;
   touch-action: pan-y;
+  margin-left: -12px; 
+  gap: 0px;
 }
 
 .embla__slide {
   flex: 0 0 80%;
+  padding-left: 12px;
+  box-sizing: border-box;
 }
 
 @media (min-width: 768px) {
